@@ -4,6 +4,8 @@ import com.servispeed.ms_security.model.entity.Permiso;
 import com.servispeed.ms_security.model.entity.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
@@ -15,7 +17,8 @@ import java.util.Map;
 @Service
 public class JwtService {
 
-    private final String SECRET = "secretkey";
+    @Value("${JWT_SECRET}")
+    private String SECRET;
 
     public String generateToken(Usuario usuario) {
 
