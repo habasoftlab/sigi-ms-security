@@ -37,6 +37,7 @@ public class AuthService {
                 .toList();
 
         return LoginResponse.builder()
+                .idUsuario(usuario.getIdUsuario())
                 .token(token)
                 .rol(usuario.getRol().getDescripcion())
                 .permisos(permisos)
