@@ -7,6 +7,7 @@ import java.util.List;
 @Data
 @Builder
 public class LoginResponse {
+    private Integer idUsuario;
     private String token;
     private String rol;
     private List<String> permisos;
