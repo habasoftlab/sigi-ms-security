@@ -5,11 +5,12 @@ import com.servispeed.ms_security.model.entity.Usuario;
 import com.servispeed.ms_security.model.dto.LoginRequest;
 import com.servispeed.ms_security.model.dto.LoginResponse;
 import com.servispeed.ms_security.repository.UsuarioRepository;
+import com.servispeed.ms_security.security.exception.CredencialesInvalidasException;
+import com.servispeed.ms_security.security.exception.UsuarioNoEncontradoException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import com.servispeed.ms_security.service.JwtService;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +23,10 @@ public class AuthService {
     public LoginResponse login(LoginRequest request) {
 
         Usuario usuario = usuarioRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(UsuarioNoEncontradoException::new);
 
         if (!passwordEncoder.matches(request.getPassword(), usuario.getContrasena())) {
-            throw new RuntimeException("Credenciales incorrectas");
+            throw new CredencialesInvalidasException();
         }
 
         String token = jwtService.generateToken(usuario);
