@@ -70,3 +70,6 @@ Thumbs.db
 
 ### Creds ###
 *.env
+
+### Other ###
+output/
