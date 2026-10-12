@@ -18,7 +18,7 @@ import java.util.Map;
 public class JwtService {
 
     @Value("${JWT_SECRET}")
-    private String SECRET;
+    private String secret;
 
     public String generateToken(Usuario usuario) {
 
@@ -39,7 +39,7 @@ public class JwtService {
                 .subject(usuario.getEmail())
                 .issuedAt(new Date())
                 .expiration(Date.from(Instant.now().plus(24, ChronoUnit.HOURS)))
-                .signWith(Keys.hmacShaKeyFor(SECRET.getBytes()))
+                .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
 }
