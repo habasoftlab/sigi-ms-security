@@ -4,54 +4,40 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
-import com.servispeed.ms_security.security.SecurityConfig;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.servispeed.ms_security.model.dto.LoginRequest;
 import com.servispeed.ms_security.model.dto.LoginResponse;
 import com.servispeed.ms_security.service.AuthService;
-import com.servispeed.ms_security.service.JwtService;
-import com.servispeed.ms_security.repository.UsuarioRepository;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
-@WebMvcTest(
-    controllers = AuthController.class,
-    excludeAutoConfiguration = {SecurityAutoConfiguration.class},
-    excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)
-)
-@AutoConfigureMockMvc(addFilters = false)
+@ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
 
-    @Autowired
     private MockMvc mockMvc;
+    private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @MockitoBean
+    @Mock
     private AuthService authService;
 
-    @MockitoBean
-    private JwtService jwtService;
+    @InjectMocks
+    private AuthController authController;
 
-    @MockitoBean
-    private UsuarioRepository usuarioRepository;
-
-    @MockitoBean
-    private PasswordEncoder passwordEncoder;
+    @BeforeEach
+    void setUp() {
+        mockMvc = MockMvcBuilders.standaloneSetup(authController).build();
+    }
 
     @Test
     void login_ReturnsOk_WhenCredentialsAreValid() throws Exception {
