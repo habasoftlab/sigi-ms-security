@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,6 +21,8 @@ import com.servispeed.ms_security.model.dto.LoginRequest;
 import com.servispeed.ms_security.model.dto.LoginResponse;
 import com.servispeed.ms_security.service.AuthService;
 import com.servispeed.ms_security.service.JwtService;
+import com.servispeed.ms_security.repository.UsuarioRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @WebMvcTest(AuthController.class)
 @AutoConfigureMockMvc(addFilters = false)
@@ -36,6 +39,12 @@ class AuthControllerTest {
 
     @MockitoBean
     private JwtService jwtService;
+
+    @MockitoBean
+    private UsuarioRepository usuarioRepository;
+
+    @MockitoBean
+    private PasswordEncoder passwordEncoder;
 
     @Test
     void login_ReturnsOk_WhenCredentialsAreValid() throws Exception {
