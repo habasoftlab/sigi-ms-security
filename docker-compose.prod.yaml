@@ -1,0 +1,16 @@
+services:
+  ms-security:
+    image: sigi-ms-security:latest
+    container_name: sigi-ms-security-prod
+    ports:
+      # Exponemos el puerto de producción (Ajusta este puerto según tu arquitectura)
+      - "127.0.0.1:8082:8089"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/sigi
+      - SPRING_DATASOURCE_USERNAME=admin
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - JWT_SECRET=${JWT_SECRET}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: always
