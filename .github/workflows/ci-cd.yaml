@@ -32,7 +32,7 @@ jobs:
         run: |
           echo "DB_PASSWORD=${DB_PASSWORD}" > .env
           echo "JWT_SECRET=${JWT_SECRET}" >> .env
-          mvn clean verify
+          mvn clean verify -e
 
       - name: Guardar artefacto (JAR)
         uses: actions/upload-artifact@v4
