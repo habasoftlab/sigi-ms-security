@@ -4,7 +4,7 @@ services:
     container_name: sigi-ms-security-test
     ports:
       # Exponemos el 8089 hacia el servidor
-      - "127.0.0.1:8089:8089"
+      - "172.17.0.1:8089:8089"
     environment:
       - SPRING_PROFILES_ACTIVE=test
       - SPRING_DATASOURCE_URL=jdbc:postgresql://host.docker.internal:5432/sigi
